@@ -1,31 +1,362 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+<style type="text/css">
+    .nisse {
+        color:white;
+    }
+</style>
+<div class="box well"></div>
+<div id="productcount"></div>
+<div id="productcount"></div>
+<input type="button" id="btnGet" value="Get XML" />
+<button id="button">to json</button>
+<button id="postjson">post json to controller</button>
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+<div class="home-demo">
+
+    <h2>Demo</h2>
+
+    <div class="home-dnd">
+        <div class="listcat" id="categorylist">
+            <span class="nisse">Produkter</span>
+            <!--<div class="home-dnd-item">Senap 250g</div>
+            <div class="home-dnd-item">Mjölk Mellan</div>
+            <div class="home-dnd-item">Snus</div>
+            <div class="home-dnd-item">Prästost</div>
+            <div class="home-dnd-item">Mjölk Mellan</div>
+            <div class="home-dnd-item">Mjölk Mellan</div>
+            <div class="home-dnd-item">Mjölk Mellan</div>
+            <div class="home-dnd-item">Mjölk Mellan</div>
+            <div class="home-dnd-item">Mjölk Mellan</div>
+            <div class="home-dnd-item">Mjölk Mellan</div>
+            <div class="home-dnd-item">Mjölk Mellan</div>
+            <div class="home-dnd-item">Mjölk Mellan</div>
+            <div class="home-dnd-item">Mjölk Mellan</div>
+            <div class="home-dnd-item">Mjölk Mellan</div>
+            <div class="home-dnd-item">Mjölk Mellan</div>
+            <div class="home-dnd-item">Snus</div>
+            <div class="home-dnd-item">Snus</div>
+            <div class="home-dnd-item">Snus</div>-->
+
+        </div>
+        <div class="list" id="cat-mejeri">
+            <span class="nisse">Mejeri</span>
+
+        </div>
+        <div class="list" id="cat-ost">
+            <span class="nisse">Ost</span>
+
+        </div>
+        <div class="list" id="cat-kalla_drycker">
+            <span class="nisse">Kalla drycker</span>
+
+        </div>
+        <div class="list" id="cat-snacks">
+            <span class="nisse">Snacks</span>
+
+        </div>
+        <div class="list" id="cat-mejeri">
+            <span class="nisse">Torra kakor, kex, skorpor, hårt bröd</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Torra kakor, kex, skorpor, hårt bröd</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Färskt Matbröd, mjukt kaffebröd</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Chark, kött, fågel och deli</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Kylda vegetariska produkter</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Kyld färdigmat & måltidskomp</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Ur havet</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse"> Konfektyr</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Glass</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Djupfryst</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Flingor, müsli, gryn</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Varma drycker med tillbehör</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Konserver, Soppor</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">All världens mat</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Smaksättning</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Pasta, ris, mos</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Bak & sötningsprodukter</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Matöverkänslighet</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse"> Barn, baby</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Djur</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Hälsa</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Hårvård</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Kroppsvård, ansiktsvård, rakning, toalettartiklar</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Make up</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Munvård, intimhygien</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Tvätt, rengöring, disk</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Papper</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Tobak</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Förbrukningsartiklar</span>
+
+        </div>
+        <div class="list" id="cat_ost">
+            <span class="nisse">Receptfria läkemedel</span>
+
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
+
+    
 </div>
+@section Scripts {
+<script type="text/javascript">
+
+    $(function () {
+        var productCounter = 0;
+        var json;
+        //alert('nisse');
+        $("#btnGet").click(function () {
+            $('.box').jmspinner('large');
+                $.ajax({
+                    type: "GET",
+                    url: "/Home/getXmlData",
+                    data: '',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "text",
+                    success: function (response) {
+                        $(response).find('transactions').each(function () {
+                            var nisse = 0;
+                            productCounter++;
+                            var itemDesc = $(this).find('itemDesc').text();
+                            //$("#temp").append('<li>' + $(this).text() + '</li>');
+                            if (itemDesc) {
+                                $('.listcat').append('<div class="home-dnd-item">' + itemDesc + '</div>');
+                            }
+
+                        });
+                        
+                        $('#productcount').text('Antal produkter: ' + productCounter);
+                        // DRAGGABLE START
+                        var $ph, axisY;
+
+                        $('.home-dnd-item').hqyDraggable({
+                            proxy: 'clone',
+                            onStartDrag: function (event, target) {
+
+                                $(target).width($(this).width());
+
+                                $ph = $(this).clone();
+                                $ph.addClass('op2');
+                                $(this).hide().before($ph);
+                            },
+                            onStopDrag: function () {
+                                $ph.after(this);
+                                $ph.remove();
+                                $ph = null;
+                                $(this).show();
+                            }
+                        });
+
+                        $('.home-dnd-item').hqyDroppable({
+                            onDragEnter: function () {
+                                axisY = 0;
+                            },
+                            onDragOver: function (event, target) {
+                                if (event.data.top > axisY) {
+                                    $(this).after($ph);
+                                } else {
+                                    $(this).before($ph);
+                                }
+
+                                axisY = event.data.top;
+                            }
+                        });
+                        //$('.list').hqyDroppable({
+
+                        //    onDrop: function (event, target) {
+                        //        var x = 1;
+                        //        console.log('onStartDrag');
+                        //    },
+                        //    onDragEnter: function (event, target) {
+                        //        var y = 1;
+                        //        console.log('onStartDrag');
+                        //    }
+
+
+
+                        //});
+                        $('.home-dnd .list').hqyDroppable({
+                            onDragEnter: function (event, target) {
+
+                                var $filter = $(this).find('.home-dnd-item:visible').filter(function () {
+                                    return this !== target;
+                                });
+
+                                if ($filter.length <= 0) {
+                                    $(this).append($ph);
+                                }
+                            },
+                            onDrop: function (event, target) {
+                                //console.log('Moved ' + target.innerText + ' to ' + this.id);
+
+                                var currentList = $(this);
+                                // loop alla produkter i catlist för att hitta element med samma innerText och flytta dom till denna kategori
+                                $(target.parentElement).children('.home-dnd-item').each(function (i, o) {
+                                    //console.log(o.innerText);
+                                    if (o.innerText === target.innerText) {
+                                        var elem = $(o);
+                                        currentList.append(elem);
+                                        //alert('hittad' + target.innerText);
+                                    }
+                                })
+
+                                // loop alla produkter i catlist för att hitta element med samma innerText och flytta dom till denna kategori
+                                //t.parentElement('.home-dnd-item').each(function (i,o) {
+
+                                //    if (this.innerText === target.innerText) {
+                                //        alert('hittad' + target.innerText);
+                                //    }
+                                //})
+                            }
+                        });
+                        // stop spinner
+
+                        $('.box').jmspinner(false);
+                    // DRAGGABLE END
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+            });
+
+        });
+        // TO JSON START
+        var arr = new Array();
+
+        $("#button").click(function () {
+            arr = [];
+            // foreach categorylist
+            $('.list').each(function (index, obj) {
+
+              
+                
+                var newItem = new Object();
+                newItem.cat = obj.id;
+                newItem.childs = [];
+                // foreach item in category
+                $(obj).children('.home-dnd-item').each(function (i, o) {
+
+                   
+                    if (o.innerText) {
+                        
+                        console.log(o.innerText);
+                        
+                        newItem.childs.push(o.innerText);
+                    
+                        
+                    }
+                    
+                });
+                if(newItem.childs.length > 0)
+                    arr.push(newItem);
+               
+            });
+            json = JSON.stringify(arr);
+            //json2 = $.toJSON(arr);
+            console.log(json);
+        });
+
+        // TO JSON END
+        $('#postjson').click(function () {
+            $.ajax({
+            type: "POST",
+                url: "/Home/xmlpost",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+                data: json,
+            //success: function (data) { alert(data); },
+            failure: function (errMsg) {
+                alert(errMsg);
+                }
+        });
+        });
+        });
+</script>
+    
+    }

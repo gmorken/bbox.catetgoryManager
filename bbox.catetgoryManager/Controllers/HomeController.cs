@@ -26,5 +26,20 @@ namespace bbox.catetgoryManager.Controllers
 
             return View();
         }
+        public ContentResult getXmlData()
+        {
+            string xml = System.IO.File.ReadAllText(@"c:\Temp\ica.xml");
+            return Content(xml);
+        }
+        [HttpPost]
+        public JsonResult xmlpost(List<RootObject> data)
+        {
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+    }
+    public class RootObject
+    {
+        public string cat { get; set; }
+        public List<string> childs { get; set; }
     }
 }
