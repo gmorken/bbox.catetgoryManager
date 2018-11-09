@@ -9,6 +9,7 @@
 <div class="box well"></div>
 <div id="productcount"></div>
 <div id="productcount"></div>
+<div id="filename"></div>
 <input type="button" id="btnGet" value="Get XML" />
 <button id="button">to json</button>
 <button id="postjson">post json to controller</button>
@@ -378,9 +379,36 @@
             });
             // jquery fileupload test start
             $('#fileupload').fileupload({
+                add: function (e, data) {
+                    $('.box').jmspinner('large');
+                    $('#filename').text(data.files[0].name);
+                    var jqXHR = data.submit();
+                },
                 //dataType: 'xml',
+                //progress: function (e, data) {
+
+                //    // Calculate the completion percentage of the upload
+                //    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    
+
+                //    // Update the hidden input field and trigger a change
+                //    // so that the jQuery knob plugin knows to update the dial
+                //    //data.context.find('input').val(progress).change();
+
+                //    if (progress == 100) {
+                        
+                //        //data.context.removeClass('working');
+                //    }
+                //},
+
+                fail: function (e, data) {
+                    alert(data.innerText);
+                    // Something has gone wrong!
+                    //data.context.addClass('error');
+                },
                 done: function (e, data) {
-                   
+
+                    $('.box').jmspinner(false);
                     $(data.result).find('transactions').each(function () {
                         var nisse = 0;
                         productCounter++;

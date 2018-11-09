@@ -13,6 +13,7 @@ namespace bbox.catetgoryManager.Controllers
         public ActionResult Index()
         {
             return View();
+            //syns?
         }
 
         public ActionResult About()
