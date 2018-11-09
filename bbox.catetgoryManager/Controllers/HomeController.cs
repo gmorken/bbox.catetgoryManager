@@ -14,6 +14,7 @@ namespace bbox.catetgoryManager.Controllers
         {
             return View();
             //syns?
+            // syns2?
         }
 
         public ActionResult About()
