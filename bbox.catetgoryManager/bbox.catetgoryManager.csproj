@@ -170,6 +170,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\fileupload\jquery.fileupload.js" />
+    <Content Include="Scripts\fileupload\jquery.iframe-transport.js" />
+    <Content Include="Scripts\fileupload\jquery.ui.widget.js" />
     <Content Include="Scripts\hqy.interact.min.js" />
     <Content Include="Scripts\jm.spinner.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />

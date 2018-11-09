@@ -3,7 +3,7 @@
 }
 <style type="text/css">
     .nisse {
-        color:white;
+        color: white;
     }
 </style>
 <div class="box well"></div>
@@ -12,7 +12,20 @@
 <input type="button" id="btnGet" value="Get XML" />
 <button id="button">to json</button>
 <button id="postjson">post json to controller</button>
+<button id="clearButton">Clear</button>
+@*@using (Html.BeginForm("uploadXml", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="file" name="xmlfile" id="xmlfile" />
+    <input type="submit" name="Submit" id="Submit" value="Upload" />
+}*@
+<input id="fileupload" type="file" name="files[]" data-url="Home/uploadXml/" multiple>
 
+@*<!-- The global progress bar -->
+<div id="progress" class="progress">
+    <div class="progress-bar progress-bar-success"></div>
+</div>
+<!-- The container for the uploaded files -->
+<div id="files" class="files"></div>*@
 
 <div class="home-demo">
 
@@ -179,18 +192,24 @@
         </div>
     </div>
 
-    
+
 </div>
 @section Scripts {
-<script type="text/javascript">
+    <script type="text/javascript">
 
-    $(function () {
-        var productCounter = 0;
-        var json;
-        //alert('nisse');
-        //
-        $("#btnGet").click(function () {
-            $('.box').jmspinner('large');
+        $(function () {
+            var productCounter = 0;
+            var json;
+            //alert('nisse');
+            //
+            // Clear all
+            $('#clearButton').click(function () {
+
+                $('#categorylist').empty();
+            });
+
+            $("#btnGet").click(function () {
+                $('.box').jmspinner('large');
                 $.ajax({
                     type: "GET",
                     url: "/Home/getXmlData",
@@ -208,7 +227,7 @@
                             }
 
                         });
-                        
+
                         $('#productcount').text('Antal produkter: ' + productCounter);
                         // DRAGGABLE START
                         var $ph, axisY;
@@ -296,7 +315,7 @@
                         // stop spinner
 
                         $('.box').jmspinner(false);
-                    // DRAGGABLE END
+                        // DRAGGABLE END
                     },
                     failure: function (response) {
                         alert(response.responseText);
@@ -304,60 +323,169 @@
                     error: function (response) {
                         alert(response.responseText);
                     }
+                });
+
+            });
+            // TO JSON START
+            var arr = new Array();
+
+            $("#button").click(function () {
+                arr = [];
+                // foreach categorylist
+                $('.list').each(function (index, obj) {
+
+
+
+                    var newItem = new Object();
+                    newItem.cat = obj.id;
+                    newItem.childs = [];
+                    // foreach item in category
+                    $(obj).children('.home-dnd-item').each(function (i, o) {
+
+
+                        if (o.innerText) {
+
+                            console.log(o.innerText);
+
+                            newItem.childs.push(o.innerText);
+
+
+                        }
+
+                    });
+                    if (newItem.childs.length > 0)
+                        arr.push(newItem);
+
+                });
+                json = JSON.stringify(arr);
+                //json2 = $.toJSON(arr);
+                console.log(json);
             });
 
-        });
-        // TO JSON START
-        var arr = new Array();
-
-        $("#button").click(function () {
-            arr = [];
-            // foreach categorylist
-            $('.list').each(function (index, obj) {
-
-              
-                
-                var newItem = new Object();
-                newItem.cat = obj.id;
-                newItem.childs = [];
-                // foreach item in category
-                $(obj).children('.home-dnd-item').each(function (i, o) {
-
-                   
-                    if (o.innerText) {
-                        
-                        console.log(o.innerText);
-                        
-                        newItem.childs.push(o.innerText);
-                    
-                        
+            // TO JSON END
+            $('#postjson').click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/xmlpost",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    data: json,
+                    //success: function (data) { alert(data); },
+                    failure: function (errMsg) {
+                        alert(errMsg);
                     }
-                    
                 });
-                if(newItem.childs.length > 0)
-                    arr.push(newItem);
+            });
+            // jquery fileupload test start
+            $('#fileupload').fileupload({
+                //dataType: 'xml',
+                done: function (e, data) {
+                   
+                    $(data.result).find('transactions').each(function () {
+                        var nisse = 0;
+                        productCounter++;
+                        var itemDesc = $(this).find('itemDesc').text();
+                        //$("#temp").append('<li>' + $(this).text() + '</li>');
+                        if (itemDesc) {
+                            $('.listcat').append('<div class="home-dnd-item">' + itemDesc + '</div>');
+                        }
+                        
+                    });
+                    $('#productcount').text('Antal produkter: ' + productCounter);
+                    // DRAGGABLE START
+                    var $ph, axisY;
+
+                    $('.home-dnd-item').hqyDraggable({
+                        proxy: 'clone',
+                        onStartDrag: function (event, target) {
+
+                            $(target).width($(this).width());
+
+                            $ph = $(this).clone();
+                            $ph.addClass('op2');
+                            $(this).hide().before($ph);
+                        },
+                        onStopDrag: function () {
+                            $ph.after(this);
+                            $ph.remove();
+                            $ph = null;
+                            $(this).show();
+                        }
+                    });
+
+                    $('.home-dnd-item').hqyDroppable({
+                        onDragEnter: function () {
+                            axisY = 0;
+                        },
+                        onDragOver: function (event, target) {
+                            if (event.data.top > axisY) {
+                                $(this).after($ph);
+                            } else {
+                                $(this).before($ph);
+                            }
+
+                            axisY = event.data.top;
+                        }
+                    });
+                    //$('.list').hqyDroppable({
+
+                    //    onDrop: function (event, target) {
+                    //        var x = 1;
+                    //        console.log('onStartDrag');
+                    //    },
+                    //    onDragEnter: function (event, target) {
+                    //        var y = 1;
+                    //        console.log('onStartDrag');
+                    //    }
+
+
+
+                    //});
+                    $('.home-dnd .list').hqyDroppable({
+                        onDragEnter: function (event, target) {
+
+                            var $filter = $(this).find('.home-dnd-item:visible').filter(function () {
+                                return this !== target;
+                            });
+
+                            if ($filter.length <= 0) {
+                                $(this).append($ph);
+                            }
+                        },
+                        onDrop: function (event, target) {
+                            //console.log('Moved ' + target.innerText + ' to ' + this.id);
+
+                            var currentList = $(this);
+                            // loop alla produkter i catlist för att hitta element med samma innerText och flytta dom till denna kategori
+                            $(target.parentElement).children('.home-dnd-item').each(function (i, o) {
+                                //console.log(o.innerText);
+                                if (o.innerText === target.innerText) {
+                                    var elem = $(o);
+                                    currentList.append(elem);
+                                    //alert('hittad' + target.innerText);
+                                }
+                            });
+
+                            // loop alla produkter i catlist för att hitta element med samma innerText och flytta dom till denna kategori
+                            //t.parentElement('.home-dnd-item').each(function (i,o) {
+
+                            //    if (this.innerText === target.innerText) {
+                            //        alert('hittad' + target.innerText);
+                            //    }
+                            //})
+                        }
+                    });
+                    // stop spinner
+
+                    $('.box').jmspinner(false);
+                        // DRAGGABLE END
+                } // Done end
                
             });
-            json = JSON.stringify(arr);
-            //json2 = $.toJSON(arr);
-            console.log(json);
-        });
 
-        // TO JSON END
-        $('#postjson').click(function () {
-            $.ajax({
-            type: "POST",
-                url: "/Home/xmlpost",
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-                data: json,
-            //success: function (data) { alert(data); },
-            failure: function (errMsg) {
-                alert(errMsg);
-                }
+
+            // jquery fileupload end
         });
-        });
-        });
-</script>
-    
-    }
+    </script>
+
+}
