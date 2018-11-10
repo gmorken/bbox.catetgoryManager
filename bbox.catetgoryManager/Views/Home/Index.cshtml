@@ -371,35 +371,46 @@
                     
 
                     var newItem = new Object();
-                    newItem.cat = obj.id;
-
-                    newItem.childs = [];
+                    //newItem.cat = obj.id;
+                    newItem.ClublandCategoryName = obj.id;
+                    //
+                    //newItem.childs = [];
+                    newItem.CategoryItems = [];
+                    // ClublandCategoryName
                     // foreach item in category
                     $(obj).children('.home-dnd-item').each(function (i, o) {
 
                         var child = new Object();
-                        child.name = o.innerText;
+                        //child.name = o.innerText;
+                        child.ItemDescription = o.innerText;
                         if (o.innerText) {
 
                             if (o.attributes["data-added"].nodeValue == 1) {
-                                child.added = 1;
-                                                       }
+                                //child.added = 1;
+                                child.Status = 1
+                            }
                             else {
-                                child.added = 0;
+                                //child.added = 0;
+                                child.Status = 0;
                                 //newItem.added = 0;
                             }
 
                             console.log(o.innerText);
 
                             //newItem.childs.push(o.innerText);
-                            newItem.childs.push(child);
+                            //newItem.childs.push(child);
+                            newItem.CategoryItems.push(child);
 
 
                         }
+                       
 
                     });
-                    if (newItem.childs.length > 0)
-                        arr.push(newItem);
+                    //if (newItem.childs.length > 0)
+                        if (newItem.CategoryItems.length > 0) {
+                            arr.push(newItem);
+                        }
+                       
 
                 });
                 json = JSON.stringify(arr);
@@ -415,7 +426,7 @@
             $('#postjson').click(function () {
                 $.ajax({
                     type: "POST",
-                    url: "/Home/xmlpost",
+                    url: "/Home/newPost",
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     data: json,
@@ -565,11 +576,12 @@
                     var icamasterlist = $("#icamasterlist").text();
                     var obj = JSON.parse(icamasterlist);
                     $.each(obj, function (i, o) {
-                        var clublandCategory = '#' + o.cat;
+                        //var clublandCategory = '#' + o.cat;
+                        var clublandCategory = '#' + o.ClublandCategoryName;
 
                        
-                        $.each(o.childs, function (iz, oz) {
-                            var foundDivs = $('div.home-dnd-item:contains(' + oz + ')');
+                        $.each(o.CategoryItems, function (iz, oz) {
+                            var foundDivs = $('div.home-dnd-item:contains(' + oz.ItemDescription + ')');
                             $(clublandCategory).append(foundDivs);
                         });
                     });
