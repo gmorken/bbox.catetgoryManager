@@ -170,6 +170,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\fileupload\jquery.fileupload-jquery-ui.js" />
     <Content Include="Scripts\fileupload\jquery.fileupload.js" />
     <Content Include="Scripts\fileupload\jquery.iframe-transport.js" />
     <Content Include="Scripts\fileupload\jquery.ui.widget.js" />
@@ -203,6 +204,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Scripts\NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

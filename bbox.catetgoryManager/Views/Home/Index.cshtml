@@ -14,6 +14,13 @@
 <button id="button">to json</button>
 <button id="postjson">post json to controller</button>
 <button id="clearButton">Clear</button>
+<button id="saveCurrentJson">Save Current JSON-TREE</button>
+<button id="allAddedItems">Get all added items</button>
+<input type="text" id="myInput" data-myValue="@ViewBag.masterlist" />
+<div id="addedItemsList"></div>
+<text id="icamasterlist">@ViewBag.masterlist</text>
+
+
 @*@using (Html.BeginForm("uploadXml", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <input type="file" name="xmlfile" id="xmlfile" />
@@ -199,6 +206,32 @@
     <script type="text/javascript">
 
         $(function () {
+
+            // GET ALL ADDED ITEMS START
+            $('#allAddedItems').click(function (i, o) {
+                //$(document).children().filter(function () {
+                //    var changed = $(this).attr('data-added', 1);
+                //});
+
+
+                var items = $('[data-added="1"]');
+
+                //$('[data-added], 1');
+                items.each(function (i, item) {
+                    $('#addedItemsList').append('<li>' + item.innerText + '</li>');
+                });
+
+            })
+
+
+            // GET ALL ADDED ITEMS END
+            var icamasterlist = $("#icamasterlist").text();
+            var obj = JSON.parse(icamasterlist);
+            $.each(obj, function (i, o) {
+                var x = o.childs;
+            })
+            // sort ever item according to mastelist
+
             var productCounter = 0;
             var json;
             //alert('nisse');
@@ -330,25 +363,36 @@
             // TO JSON START
             var arr = new Array();
 
-            $("#button").click(function () {
+            $("#saveCurrentJson").click(function () {
                 arr = [];
                 // foreach categorylist
                 $('.list').each(function (index, obj) {
 
-
+                    
 
                     var newItem = new Object();
                     newItem.cat = obj.id;
+
                     newItem.childs = [];
                     // foreach item in category
                     $(obj).children('.home-dnd-item').each(function (i, o) {
 
-
+                        var child = new Object();
+                        child.name = o.innerText;
                         if (o.innerText) {
+
+                            if (o.attributes["data-added"].nodeValue == 1) {
+                                child.added = 1;
+                                                       }
+                            else {
+                                child.added = 0;
+                                //newItem.added = 0;
+                            }
 
                             console.log(o.innerText);
 
-                            newItem.childs.push(o.innerText);
+                            //newItem.childs.push(o.innerText);
+                            newItem.childs.push(child);
 
 
                         }
@@ -360,6 +404,10 @@
                 });
                 json = JSON.stringify(arr);
                 //json2 = $.toJSON(arr);
+                var childs = arr.childs;
+
+                var unArr = [...new Set(childs)];
+
                 console.log(json);
             });
 
@@ -408,6 +456,9 @@
                 },
                 done: function (e, data) {
 
+                    
+
+
                     $('.box').jmspinner(false);
                     $(data.result).find('transactions').each(function () {
                         var nisse = 0;
@@ -415,7 +466,7 @@
                         var itemDesc = $(this).find('itemDesc').text();
                         //$("#temp").append('<li>' + $(this).text() + '</li>');
                         if (itemDesc) {
-                            $('.listcat').append('<div class="home-dnd-item">' + itemDesc + '</div>');
+                            $('.listcat').append('<div class="home-dnd-item" data-added="0">' + itemDesc + '</div>');
                         }
                         
                     });
@@ -489,6 +540,9 @@
                                 //console.log(o.innerText);
                                 if (o.innerText === target.innerText) {
                                     var elem = $(o);
+                                    //elem.data('data-added', 1);
+                                    // set attribute data-added to 1 so that we know that this item is added since last run
+                                    elem.attr('data-added', 1);
                                     currentList.append(elem);
                                     //alert('hittad' + target.innerText);
                                 }
@@ -507,6 +561,24 @@
 
                     $('.box').jmspinner(false);
                         // DRAGGABLE END
+                    // REARRANGE ITEM ACCORDING TO MASTERLIST START
+                    var icamasterlist = $("#icamasterlist").text();
+                    var obj = JSON.parse(icamasterlist);
+                    $.each(obj, function (i, o) {
+                        var clublandCategory = '#' + o.cat;
+
+                       
+                        $.each(o.childs, function (iz, oz) {
+                            var foundDivs = $('div.home-dnd-item:contains(' + oz + ')');
+                            $(clublandCategory).append(foundDivs);
+                        });
+                    });
+
+
+
+                    // REARRANGE ITEMS ACCORDING TO MASTERLIST END
+
+
                 } // Done end
                
             });

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,6 +13,10 @@ namespace bbox.catetgoryManager.Controllers
         // test
         public ActionResult Index()
         {
+            var json = System.IO.File.ReadAllText(@"d:\masterlist.json");
+            var icamasterlist = JsonConvert.DeserializeObject<List<RootObject>>(json);
+
+            ViewBag.masterlist = json;
             return View();
             //syns?
             // syns2?
@@ -38,6 +43,24 @@ namespace bbox.catetgoryManager.Controllers
         [HttpPost]
         public JsonResult xmlpost(List<RootObject> data)
         {
+
+            var newMasterCategoryList = new List<RootObject>();
+
+            // Get unique values in childs
+            foreach (var parent in data)
+            {
+                
+
+                var childList = parent.childs.Distinct().ToList();
+                parent.childs = childList;
+                newMasterCategoryList.Add(parent);
+                //var uniqueChildren = parent.childs.GroupBy(n => n.)
+                //foreach (var child in parent.childs)
+                //{
+
+                //}
+            }
+
             return Json(data, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
@@ -56,7 +79,10 @@ namespace bbox.catetgoryManager.Controllers
                     xml = System.IO.File.ReadAllText(path);
                 }
             }
-           
+            var json = System.IO.File.ReadAllText(@"d:\masterlist.json");
+            var icamasterlist = JsonConvert.DeserializeObject<List<RootObject>>(json);
+
+            ViewBag.masterlist = json;
             return Content(xml);
             //return null;// RedirectToAction("UploadDocument");
         }
