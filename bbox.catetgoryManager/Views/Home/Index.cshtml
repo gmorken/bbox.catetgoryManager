@@ -3,7 +3,10 @@
 }
 <style type="text/css">
     .nisse {
-        color: white;
+        color: black;
+    }
+    .product {
+        color: black
     }
 </style>
 <div class="box well"></div>
@@ -19,7 +22,9 @@
 <input type="text" id="myInput" data-myValue="@ViewBag.masterlist" />
 <div id="addedItemsList"></div>
 <text id="icamasterlist">@ViewBag.masterlist</text>
-
+<style type="text/css">
+   
+</style>
 
 @*@using (Html.BeginForm("uploadXml", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -40,7 +45,7 @@
     <h2>Demo</h2>
 
     <div class="home-dnd">
-        <div class="listcat" id="categorylist">
+        <div class="listcat list" id="categorylist">
             <span class="nisse">Produkter</span>
             <!--<div class="home-dnd-item">Senap 250g</div>
             <div class="home-dnd-item">Mjölk Mellan</div>
@@ -366,7 +371,7 @@
             $("#saveCurrentJson").click(function () {
                 arr = [];
                 // foreach categorylist
-                $('.list').each(function (index, obj) {
+                $('.list:not(.listcat)').each(function (index, obj) {
 
                     
 
@@ -477,7 +482,7 @@
                         var itemDesc = $(this).find('itemDesc').text();
                         //$("#temp").append('<li>' + $(this).text() + '</li>');
                         if (itemDesc) {
-                            $('.listcat').append('<div class="home-dnd-item" data-added="0">' + itemDesc + '</div>');
+                            $('.listcat').append('<div class="home-dnd-item product" data-added="0">' + itemDesc + '</div>');
                         }
                         
                     });
@@ -543,9 +548,13 @@
                             }
                         },
                         onDrop: function (event, target) {
-                            //console.log('Moved ' + target.innerText + ' to ' + this.id);
+                            console.log('Moved ' + target.innerText + ' to ' + this.id);
 
                             var currentList = $(this);
+
+                            if (this.id == 'categorylist' && $(target).attr('data-added') == 1)
+                                alert('categorylist! and added!!!');
+
                             // loop alla produkter i catlist för att hitta element med samma innerText och flytta dom till denna kategori
                             $(target.parentElement).children('.home-dnd-item').each(function (i, o) {
                                 //console.log(o.innerText);
@@ -557,8 +566,10 @@
                                     currentList.append(elem);
                                     //alert('hittad' + target.innerText);
                                 }
+                                //$(".home-dnd-item:not(:first)").remove();
                             });
 
+                            
                             // loop alla produkter i catlist för att hitta element med samma innerText och flytta dom till denna kategori
                             //t.parentElement('.home-dnd-item').each(function (i,o) {
 
@@ -567,7 +578,9 @@
                             //    }
                             //})
                         }
+                        //$('.home-dnd-item').not(':last')​.remove();​​​​​​​​​​​​​
                     });
+                   
                     // stop spinner
 
                     $('.box').jmspinner(false);
